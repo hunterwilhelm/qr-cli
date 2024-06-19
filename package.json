@@ -37,13 +37,8 @@
   },
   "dependencies": {
     "@types/react-dom": "^18.3.0",
-    "chalk": "^4.1.2",
-    "chalk-animation": "^2.0.3",
+    "cheerio": "^1.0.0-rc.12",
     "commander": "^11.0.0",
-    "figlet": "^1.7.0",
-    "gradient-string": "^2.0.2",
-    "inquirer": "^8.2.6",
-    "nanospinner": "^1.1.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-qr-rounded": "^1.0.0"

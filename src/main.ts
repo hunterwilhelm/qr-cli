@@ -1,3 +1,4 @@
+import * as cheerio from 'cheerio';
 import commander from 'commander';
 import fs from 'fs';
 import React from 'react';
@@ -25,7 +26,17 @@ function main() {
         .choices(['L', 'M', 'Q', 'H'])
         .default('L'),
     )
-    .option('-p, --print', 'print to console instead of file');
+    .addOption(
+      new commander.Option('-p, --padding <number>', 'padding of the QR code')
+        .default(0)
+        .argParser((v) => parseInt(v, 10)),
+    )
+    .addOption(
+      new commander.Option('-s, --size <number>', 'size of the QR code')
+        .default(1000)
+        .argParser((v) => parseInt(v, 10)),
+    )
+    .option('-l, --log', 'log to console instead of file');
 
   program.parse();
   if (process.argv.length === 2) {
@@ -39,8 +50,10 @@ function main() {
   const backgroundColor = options.backgroundColor;
   const rounding = options.rounding;
   const errorCorrectionLevel = options.errorCorrectionLevel;
-  const toPrint = options.print !== undefined ? true : false;
+  const toPrint = options.log !== undefined ? true : false;
   const output = options.output ? options.output : `qrcode_${new Date().getTime()}_${errorCorrectionLevel}.svg`;
+  const padding = options.padding;
+  const size = options.size;
   const qrSvgText = renderToStaticMarkup(
     React.createElement(QR, {
       color,
@@ -50,10 +63,21 @@ function main() {
       children: value,
     }),
   );
+  const qrSvg = cheerio.load(qrSvgText, {
+    xmlMode: true,
+  });
+  qrSvg('svg').attr('width', size).attr('height', size);
+  qrSvg('svg').attr('viewBox', `${-padding} ${-padding} ${1000 + 2 * padding} ${1000 + 2 * padding}`);
+  qrSvg('rect')
+    .attr('x', `${-padding}`)
+    .attr('y', `${-padding}`)
+    .attr('width', `${1000 + 2 * padding}`)
+    .attr('height', `${1000 + 2 * padding}`);
+  const newQrSvgText = qrSvg.xml();
   if (toPrint) {
-    console.log(qrSvgText);
+    console.log(newQrSvgText);
   } else {
-    fs.writeFileSync(output, qrSvgText);
+    fs.writeFileSync(output, newQrSvgText);
   }
 }
 main();
