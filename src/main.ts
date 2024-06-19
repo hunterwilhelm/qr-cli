@@ -63,16 +63,25 @@ function main() {
       children: value,
     }),
   );
+
+  const viewMinimum = -padding;
+  const viewMaximum = 1000 + 2 * padding;
+
   const qrSvg = cheerio.load(qrSvgText, {
     xmlMode: true,
   });
-  qrSvg('svg').attr('width', size).attr('height', size);
-  qrSvg('svg').attr('viewBox', `${-padding} ${-padding} ${1000 + 2 * padding} ${1000 + 2 * padding}`);
+
+  qrSvg('svg')
+    .attr('width', size)
+    .attr('height', size)
+    .attr('viewBox', `${viewMinimum} ${viewMinimum} ${viewMaximum} ${viewMaximum}`);
+
   qrSvg('rect')
-    .attr('x', `${-padding}`)
-    .attr('y', `${-padding}`)
-    .attr('width', `${1000 + 2 * padding}`)
-    .attr('height', `${1000 + 2 * padding}`);
+    .attr('x', `${viewMinimum}`)
+    .attr('y', `${viewMinimum}`)
+    .attr('width', `${viewMaximum}`)
+    .attr('height', `${viewMaximum}`);
+
   const newQrSvgText = qrSvg.xml();
   if (toPrint) {
     console.log(newQrSvgText);
