@@ -161,3 +161,6 @@ bin
 
 .DS_Store
 .vscode
+
+input
+output

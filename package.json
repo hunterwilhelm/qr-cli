@@ -12,7 +12,8 @@
   "scripts": {
     "build": "rollup -c",
     "watch": "rollup -c --watch",
-    "start": "npm run build && node ./bin/cli.js"
+    "start": "npm run build && node ./bin/cli.js",
+    "batch": "./src/batch.sh"
   },
   "author": "Hunter Wilhelm",
   "license": "MIT",
