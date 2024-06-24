@@ -6,6 +6,13 @@ A simple command line tool to generate QR codes.
 
 I liked the qr code style that Inkscape uses in its QR code extension, so I decided to make a simple command line tool to generate QR codes with the same style.
 
+|--rounding 0 |--rounding 100|
+|-----|--------|
+|<img src="examples/example_square.svg" width="150" height="150" />|<img src="examples/example_rounded.svg" width="150" height="150" /> |
+
+
+
+
 ### Help
 ```
 Usage: qr [options]
